@@ -1,9 +1,8 @@
-import { useTranslation } from 'react-i18next';
-import { ILocaleService } from '../contracts/ILocaleService';
-import { LocaleStandard } from '../contracts/LocaleStandard';
-import { TLocaleResult } from '../contracts/TLocaleResult';
-import { SubLocale } from './SubLocale';
-import { useLocaleStore } from './useLocaleStore';
+import { useTranslation } from "react-i18next";
+import { ILocaleService } from "../contracts/ILocaleService";
+import { LocaleStandard } from "../contracts/LocaleStandard";
+import { TLocaleResult } from "../contracts/TLocaleResult";
+import { SubLocale } from "./SubLocale";
 
 /**
  * Uses locale
@@ -16,17 +15,17 @@ export function useAbsoluteLocale(
   prefix?: string
 ): ILocaleService {
   const store = Array.isArray(absoluteLocaleStore)
-    ? absoluteLocaleStore.join('/')
+    ? absoluteLocaleStore.join("/")
     : absoluteLocaleStore;
 
-  let init = prefix || '';
-  init = init.length !== 0 && !init.endsWith('.') ? `${init}.` : init;
+  let init = prefix || "";
+  init = init.length !== 0 && !init.endsWith(".") ? `${init}.` : init;
   const { t, ready, i18n } = useTranslation(store);
 
   const trans = <T extends TLocaleResult = string>(
     key: string,
     parameters?: string | Record<string, unknown>,
-    defaultValue: string | undefined = ''
+    defaultValue: string | undefined = ""
   ) => {
     const res = t<T>(key, defaultValue, parameters);
     return res;
@@ -35,7 +34,7 @@ export function useAbsoluteLocale(
   const transMulti = (
     key: string,
     parameters?: Record<string, unknown>,
-    defaultValue: string | undefined = ''
+    defaultValue: string | undefined = ""
   ) => {
     const res = trans<string[]>(
       key,
@@ -91,22 +90,4 @@ export function useAbsoluteLocale(
       return result;
     },
   };
-}
-
-/**
- * Uses locale
- * @param localeStore Target Locale's file
- * @param [prefix] Optional prefix within the file.
- * @returns locale
- */
-export function useLocale(
-  localeStore: string | string[],
-  prefix?: string
-): ILocaleService {
-  const rootStore = useLocaleStore();
-  const routeSuffix = Array.isArray(localeStore)
-    ? localeStore.join('/')
-    : localeStore;
-  const store = rootStore ? `${rootStore}/${routeSuffix}` : routeSuffix;
-  return useAbsoluteLocale(store, prefix);
 }

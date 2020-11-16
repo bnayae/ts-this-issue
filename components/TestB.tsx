@@ -1,6 +1,5 @@
 import React from "react";
 import { ILocaleService } from "./@locale";
-import { IProps } from "./IProps";
 
 interface IBProps {
   locale: ILocaleService;

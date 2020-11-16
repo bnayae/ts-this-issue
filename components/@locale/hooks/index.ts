@@ -1,2 +1,1 @@
-export * from './useLocale';
-export * from './useLocaleStore';
+export * from "./useLocale";

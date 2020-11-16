@@ -1,5 +1,5 @@
 import React from "react";
-import { useAbsoluteLocale, useLocale } from "./@locale";
+import { useAbsoluteLocale } from "./@locale";
 import { TestB } from "./TestB";
 
 export const Test = () => {
