@@ -6,15 +6,13 @@ export interface ISomeContext {
 }
 
 class SomeSubContext implements ISomeContext {
-  private input: () => string;
-  constructor(inp: () => string) {
-    this.sub.bind(this);
-    this.invoke.bind(this);
-    this.input = inp;
+  constructor(private input: () => string) {
+    // this.sub.bind(this);
+    // this.invoke.bind(this);
   }
 
   public invoke = () => this.input() + " test";
-  public sub = () => new SomeSubContext(this.input);
+  public sub = () => new SomeSubContext(this.invoke);
 }
 
 export const SomeContext: ISomeContext = {
@@ -28,19 +26,42 @@ interface ITest4Props {
   instance: ISomeContext;
 }
 
-export const Test4 = ({ instance }: ITest4Props) => {
-  const theThe = instance.sub(); //.bind(instance); // as any; //.call((instance as SomeSubContext).input);
-  // console.log((instance as SomeSubContext).input);
+export const useIt = (): ISomeContext => {
+  const { invoke } = useContext(TheContext);
+
+  const invokeIt = () => {
+    const res = invoke();
+    return res;
+  };
+
+  return {
+    invoke: invokeIt,
+    sub: () => new SomeSubContext(invokeIt),
+  };
+};
+
+export const Test5 = ({ instance }: ITest4Props) => {
+  const theThe = instance.sub();
 
   return (
     <>
-      <h4>{theThe.invoke()}</h4>
+      <h5>{theThe.invoke()}</h5>
     </>
   );
 };
 
+export const Test4 = ({ instance }: ITest4Props) => {
+  const theThe = instance.sub();
+
+  return (
+    <>
+      <h4>{theThe.invoke()}</h4>
+      <Test5 instance={theThe} />
+    </>
+  );
+};
 export const Test3 = () => {
-  const the = useContext(TheContext);
+  const the = useIt();
   const theThe = the.sub();
 
   return (

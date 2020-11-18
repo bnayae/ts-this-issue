@@ -9,10 +9,10 @@ import { SubLocale } from "./SubLocale";
  * @param [prefix] Optional prefix within the file.
  * @returns locale
  */
-export function useAbsoluteLocale(
+export const useAbsoluteLocale = (
   absoluteLocaleStore: string | string[],
   prefix?: string
-): ILocaleService {
+): ILocaleService => {
   const store = Array.isArray(absoluteLocaleStore)
     ? absoluteLocaleStore.join("/")
     : absoluteLocaleStore;
@@ -39,4 +39,4 @@ export function useAbsoluteLocale(
       return result;
     },
   };
-}
+};
